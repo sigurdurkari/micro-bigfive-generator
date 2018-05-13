@@ -24,13 +24,16 @@ module.exports = async (req, res) => {
   const {query} = await parse(req.url, true)
   const data = req.method === 'POST' ? await json(req) : query
   if (req.method === 'POST') {
+    console.log(data);
     const scores = await axios.post(`${config.evaluatorUrl}`, data)
-    // console.log(scores.data)
+    console.log(scores.data)
     const save = await axios.post(`${config.saveUrl}`, scores.data)
-    // console.log(save.data)
+    console.log(save.data)
     result = save.data
   } else if (req.method === 'GET' && data.id) {
+    console.log(data);
     const answers = await axios.get(`${config.saveUrl}/?id=${data.id}`)
+    console.log(answers);
     const results = await axios.post(`${config.resultsUrl}`, answers.data[0])
     result = results.data
   } else {
